@@ -6,17 +6,13 @@ using namespace std;
 
 int solution(vector<vector<int>> board, int k)
 {
-    int answer = 0;
-    int row = board.size(), col = board.front().size();
-
-    ++k;
-
-    for (int i = 0; i < row && i < k; ++i)
+    int answer=0;
+    for(int i=0;i<board.size();i++)
     {
-        int c = (col <= k - i) ? col : k - i;
-
-        answer += accumulate(board[i].begin(), board[i].begin() + c, 0);
+        for(int j=0;j<board[i].size();j++)
+        {
+            if(i+j<=k)answer+=board[i][j];
+        }
     }
-
     return answer;
 }
