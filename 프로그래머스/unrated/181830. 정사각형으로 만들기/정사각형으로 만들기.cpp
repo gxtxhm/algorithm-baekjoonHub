@@ -4,25 +4,31 @@
 using namespace std;
 
 vector<vector<int>> solution(vector<vector<int>> arr) {
+    vector<vector<int>> answer;
+    int row = arr.size();
+    int col = arr[0].size();
 
-    int n = arr.size();
-    int m = arr[0].size();
+    int gap = (row < col)? col - row : row - col;
 
-    if(n > m)
+    if(row < col)
     {
-        for(auto& row : arr)
+        for(int j=0;j<col-row;j++)
         {
-            for(int t = 0 ;t < n-m; ++t)
-            {
-                row.emplace_back(0);
-            }
+            vector<int> a;
+            for(int i=0;i<col;i++)
+                a.push_back(0);
+            arr.push_back(a);
         }
     }
-    else if(m > n)
+    else
     {
-        for(int t = 0 ;t < m-n; ++t)
+        for(int i=0;i<row;i++)
         {
-            arr.emplace_back(vector<int>(m,0));
+            for(int j=0;j<row-col;j++)
+            {
+                arr[i].push_back(0);
+            }
+
         }
     }
 
