@@ -1,51 +1,26 @@
-#include <string>
-#include <vector>
-#include <map>
+#include <bits/stdc++.h>
+#define fastio cin.tie(0)->sync_with_stdio(0)
 using namespace std;
 
 vector<int> solution(vector<string> id_list, vector<string> report, int k) {
-    vector<int> answer;
-    map<string,vector<string>> reportList;
-    map<string,int> num;
-    
-    for(int i=0;i<id_list.size();i++)
-    {
-        num.insert({id_list[i],0});
-        vector<string> a;
-        reportList.insert({id_list[i],a});
+    // 1.
+    const int n = id_list.size();
+    map<string, int> Conv;
+    for (int i = 0; i < n; i++) Conv[id_list[i]] = i;
+
+    // 2.
+    vector<pair<int, int>> v;
+    sort(report.begin(), report.end());
+    report.erase(unique(report.begin(), report.end()), report.end());
+    for (const auto& s : report) {
+        stringstream in(s);
+        string a, b; in >> a >> b;
+        v.push_back({ Conv[a], Conv[b] });
     }
-    for(int i=0;i<report.size();i++)
-    {
-        int idx = report[i].find(' ');
-        string a = report[i].substr(0,idx);
-        string b = report[i].substr(idx+1);
-        
-        bool t = true;
-        for(int j=0;j<reportList[a].size();j++)
-        {
-            if(reportList[a][j]==b)
-            {
-                t=false;break;
-            }
-        }
-        if(t)
-        {
-            reportList[a].push_back(b);
-            num[b]++;
-        }
-        
-    }
-    
-    for(int i=0;i<id_list.size();i++)
-    {
-        int cnt=0;
-        for(int j=0;j<reportList[id_list[i]].size();j++)
-        {
-            if(num[reportList[id_list[i]][j]]>=k)
-                cnt++;
-        }
-        answer.push_back(cnt);
-    }
-    
-    return answer;
+
+    // 3.
+    vector<int> cnt(n), ret(n);
+    for (const auto& [a, b] : v) cnt[b]++;
+    for (const auto& [a, b] : v) if (cnt[b] >= k) ret[a]++;
+    return ret;
 }
