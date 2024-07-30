@@ -8,21 +8,12 @@ int solution(vector<int> citations) {
     
     sort(citations.begin(),citations.end(),greater<>());
     
-    int num=citations[0];
-    
-    while(num>=0)
+    for(int i=0;i<citations.size();i++)
     {
-        int cnt=0;
-        for(int j=0;j<citations.size();j++)
-        {
-            if(citations[j]>=num)
-                cnt++;
-        }
-        if(cnt>=num)
-            return num;
-        
-        num--;
+        if(citations[i]<=i)
+            return i;
     }
     
-    return answer;
+    
+    return citations.size();
 }
