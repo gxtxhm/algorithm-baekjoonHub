@@ -5,25 +5,31 @@ using namespace std;
 
 int solution(vector<int> priorities, int location) {
     int answer = 0;
-    int maxId=0;
-    vector<bool> b(priorities.size(),0);
-    // 반복해서 startIdx 와 location이 같으면 종료
-    while(true)
+    
+    queue<pair<int,int>> q;
+    priority_queue<int> pq;
+    
+    for(int i=0;i<priorities.size();i++)
     {
-        // 가장 큰 수를 찾아서 maxIdx 로 세팅
-        for(int i=maxId,cnt=0;cnt<priorities.size();i=(i+1)%priorities.size(),cnt++)
+        q.push({i,priorities[i]});
+        pq.push(priorities[i]);
+    }
+    
+    while(!q.empty())
+    {
+        int idx = q.front().first;
+        int pri = q.front().second;
+        q.pop();
+        if(pri == pq.top())
         {
-            if(b[i]==false && priorities[maxId]<priorities[i])
-                maxId=i;
+            answer++;
+            if(location==idx)
+                return answer;
+            pq.pop();
+            
         }
-        // cnt 1 증가시키기 
-        answer++;
-        b[maxId]=true;
-        if(maxId==location)
-            break;
-        maxId = (maxId+1)%priorities.size();
-        while(b[maxId])
-            maxId = (maxId+1)%priorities.size();
+        else
+            q.push({idx,pri});
     }
     
     return answer;
