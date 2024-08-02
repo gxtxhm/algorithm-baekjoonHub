@@ -9,12 +9,6 @@ int enterCnt=0;
 
 void recur(int cnt,int curk,const vector<vector<int>>& dungeons)
 {
-    if(cnt==dungeons.size())
-    {
-        if(enterCnt>maxCnt)
-            maxCnt=enterCnt;
-        return;
-    }
     for(int i=0;i<dungeons.size();i++)
     {
         if(ch[i]==false&&curk>=dungeons[i][0])
