@@ -9,21 +9,19 @@ vector<int> solution(string msg) {
     for (int i = 0; i < 26; i++)
         um[string(1, (char)('A' + i))] = i + 1;
 
-    int idP = 0;
     int v = 27;
-    while (msg.length() != 0)
+    string w="";
+    for(int i=0;i<msg.length();i++)
     {
-        idP = 0;
-        string s = "";
-        s = msg[idP];
-        while (um.find(s) != um.end())
+        w+=msg[i];
+        if(um.find(w)==um.end())
         {
-            s += msg[++idP];
+            um[w]=v++;
+            w.pop_back();
+            answer.push_back(um[w]);
+            w=msg[i];
         }
-        um.insert({ s,v++ });
-        msg = msg.substr(s.length() - 1);
-        answer.push_back(um[s.substr(0,s.length()-1)]);
     }
-
+    answer.push_back(um[w]);
     return answer;
 }
