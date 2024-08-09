@@ -16,7 +16,7 @@ int solution(string s) {
         for(j=0;j<=s.length()-i;j+=i)
         {
             int cnt=1;
-            while(j+i<=s.length()-1 && s.substr(j,i)==s.substr(j+i,i))
+            while(s.substr(j,i)==s.substr(j+i,i))
             {
                 cnt++; j+=i;
             }
