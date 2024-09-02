@@ -1,34 +1,35 @@
 #include <iostream>
 #include <vector>
-#include <set>
+#include <unordered_set>
 using namespace std;
 
 int solution(int n, vector<vector<int>> results) {
-    vector<set<int>> wins(n + 1);
-    vector<set<int>> losses(n + 1);
+    int answer=0;
     
-    for (auto result : results) {
-        int winner = result[0];
-        int loser = result[1];
-        wins[winner].insert(loser);
-        losses[loser].insert(winner);
+    vector<unordered_set<int>> wins(n+1);
+    vector<unordered_set<int>> loses(n+1);
+    
+    for(auto& item : results)
+    {
+        // wins[n] : n 이 이긴 선수목록
+        wins[item[0]].insert(item[1]);
+        // loses[n] : n 을 이긴 선수목록
+        loses[item[1]].insert(item[0]);
     }
     
-    for (int player = 1; player <= n; ++player) {
-        for (auto winner : losses[player]) {
-            wins[winner].insert(wins[player].begin(), wins[player].end());
-        }
-        for (auto loser : wins[player]) {
-            losses[loser].insert(losses[player].begin(), losses[player].end());
-        }
+    for(int i=1;i<=n;i++)
+    {
+        // n 이 이긴선수는 n을 이긴 선수모두도 이긴것으로 간주
+        for(int c : loses[i])wins[c].insert(wins[i].begin(),wins[i].end());
+        // n이 패배한 선수를 이긴 선수들을 n도 이겼다고 간주
+        for(int c : wins[i])loses[c].insert(loses[i].begin(),loses[i].end());
     }
     
-    int count = 0;
-    for (int player = 1; player <= n; ++player) {
-        if (wins[player].size() + losses[player].size() == n - 1) {
-            ++count;
-        }
+    for(int i=1;i<=n;i++)
+    {
+        if(wins[i].size()+loses[i].size()==n-1)
+            answer++;
     }
     
-    return count;
+    return answer;
 }
