@@ -5,23 +5,21 @@ using namespace std;
 
 int solution(vector<int> people, int limit) {
     int answer = 0;
-    int l=0,r=people.size()-1;
+    
     sort(people.begin(),people.end());
     
-    while(l<=r)
+    int l=0,r=people.size()-1;
+    
+    while(l<r)
     {
         if(people[l]+people[r]<=limit)
         {
-            l++;
-            r--;
-            answer++;
+            l++;r--;
         }
-        else
-        {
-            r--;
-            answer++;
-        }
+        else r--;
+        answer++;
     }
+    if(l==r)answer++;
     
     return answer;
 }
