@@ -1,46 +1,35 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <unordered_set>
+#include <string>
 using namespace std;
 
+int main() {
+    string s;
+    cin >> s;
 
-int main()
-{
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+    unordered_set<string> croatia = {"c=", "c-", "dz=", "d-", "lj", "nj", "s=", "z="};
+    int count = 0;
 
-    int cnt=0;
-	string s;cin>>s;
-    unordered_set<string>us;
-    us.insert("c=");us.insert("c-");
-    us.insert("dz=");us.insert("d-");
-    us.insert("lj");us.insert("nj");
-    us.insert("s=");us.insert("z=");
-    string cur="";
-    cur+=s[0];cur+=s[1];
-    for(int i=2;i<s.length()+2;i++)
-    {
+    for (int i = 0; i < s.length();) {  // i는 루프 내부에서만 증가
+        bool found = false;
         
-        if(i<s.length())
-        {
-            cur+=s[i];
-            if(cur.length()!=3)continue;
-        }
-        if(cur=="")continue;
-        int j;
-        
-        for(j=0;j<cur.length();j++)
-        {
-            if(us.find(cur.substr(0,j+1))!=us.end())
-            {
+        // 3글자, 2글자, 1글자 순서대로 크로아티아 알파벳 확인
+        for (int len = 3; len > 0; len--) {
+            if (i + len <= s.length() && croatia.find(s.substr(i, len)) != croatia.end()) {
+                count++;
+                i += len;  // 발견된 경우 len만큼 건너뜁니다
+                found = true;
                 break;
             }
         }
-        if(cur.length()==1){cur="";cnt++;continue;}
-        if(j==cur.length()){cur=cur.substr(1);}
-        else if(j==cur.length()-1)cur="";
-        else cur=cur.substr(j+1);
-        cnt++;
+        
+        // 크로아티아 알파벳이 아닌 일반 알파벳이면 1글자 증가
+        if (!found) {
+            count++;
+            i++;
+        }
     }
-    cout<<cnt;
-	return 0;
+    
+    cout << count << endl;
+    return 0;
 }
