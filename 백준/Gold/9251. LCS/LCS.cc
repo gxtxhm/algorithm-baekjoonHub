@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+    string s,s2;cin>>s>>s2;
+    
+    vector<vector<int>> dp(s.length()+1,vector<int>(s2.length()+1,0));
+    
+    for(int i=1;i<=s.length();i++)
+    {
+        for(int j=1;j<=s2.length();j++)
+        {
+            if(s[i-1]==s2[j-1])dp[i][j]=dp[i-1][j-1]+1;
+            else dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+        }
+    }
+    cout<<dp[s.length()][s2.length()];
+	return 0;
+}
