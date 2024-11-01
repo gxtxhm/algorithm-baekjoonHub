@@ -1,56 +1,31 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-struct compare
-{
-    bool operator() (const pair<int, int>& a, const pair<int, int>& b)
-    {
-        if (a.second < b.second)return false;
-        else return true;
-    }
-};
-
-int main()
-{
+int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    cout.tie(NULL);
-    int n; cin >> n;
-    priority_queue<pair<int, int>, vector<pair<int, int>>, compare> pq;
-    vector<pair<int, int>> v(n);
-    int maxTime = 0;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> v[i].first >> v[i].second;
-        if (maxTime < v[i].second)maxTime = v[i].second;
-    }
-    sort(v.begin(), v.end());
 
-    int time = 1;
-    int maxx = 0;
-    int idx = 0;
-    while (time <= maxTime)
-    {
-        
-        while (v[idx].first == time)
-        {
-            if (pq.empty())pq.push(v[idx]);
-            else
-            {
-                if (pq.top().second > time)pq.push(v[idx]);
-                else
-                {
-                    while (!pq.empty() && pq.top().second <= time)pq.pop();
-                    pq.push(v[idx]);
-                }
-            }
-            
-            if (maxx < pq.size())maxx = pq.size();
-            idx++; if (idx == n)break;
-        }
-        if (idx == n)break;
-        time = v[idx].first;
+    int n;
+    cin >> n;
+    vector<pair<int, int>> lectures(n);
+    for (int i = 0; i < n; i++) {
+        cin >> lectures[i].first >> lectures[i].second;
     }
-    cout << maxx;
+
+    // 시작 시간을 기준으로 정렬
+    sort(lectures.begin(), lectures.end());
+
+    // 종료 시간을 저장하는 최소 힙
+    priority_queue<int, vector<int>, greater<int>> pq;
+    pq.push(lectures[0].second);
+
+    for (int i = 1; i < n; i++) {
+        if (pq.top() <= lectures[i].first) {
+            pq.pop();  // 기존 강의실을 사용할 수 있으므로 제거
+        }
+        pq.push(lectures[i].second);  // 새 강의 종료 시간 추가
+    }
+
+    cout << pq.size();  // 필요한 강의실 개수
     return 0;
 }
