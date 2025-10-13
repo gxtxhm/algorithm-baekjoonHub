@@ -21,24 +21,7 @@ int calChangeBlock(int r, int c)
             else curChar = 'W';
         }
     }
-
-    int cnt2 = 0;
-    curChar = 'B';
-    curRowStartChar = curChar;
-    for (int i = r; i < r + 8; i++)
-    {
-        curChar = curRowStartChar;
-        curRowStartChar = (curRowStartChar == 'W') ? 'B' : 'W';
-        for (int j = c; j < c + 8; j++)
-        {
-            if (board[i][j] != curChar) {
-                cnt2++;
-            }
-            if (curChar == 'W')curChar = 'B';
-            else curChar = 'W';
-        }
-    }
-    return (cnt < cnt2) ? cnt : cnt2;
+    return (cnt < 32) ? cnt : 64-cnt;
 }
 
 int main()
